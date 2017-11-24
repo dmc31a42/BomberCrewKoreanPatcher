@@ -3606,42 +3606,42 @@
     },
     {
       "key": "htp_controlsscreen_deselect",
-      "value": "승무원 선택 취소",
+      "value": "Deselect crew member",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "htp_controlsscreen_issue_order",
-      "value": "지시를 내리기",
+      "value": "Issue order",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "htp_controlsscreen_move_camera",
-      "value": "폭격기 주변을 둘러보기",
+      "value": "Move camera around bomber",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "htp_controlsscreen_select_crew",
-      "value": "승무원 선택",
+      "value": "Select a crew member",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "htp_controlsscreen_targetingmode",
-      "value": "또는 SPACE: 표적 지정 모드 켜기",
+      "value": "or SPACE: Toggle Tagging mode",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "htp_controlsscreen_zoom",
-      "value": "확대/축소",
+      "value": "Zoom in/out",
       "group": null,
       "notes": null,
       "version": "1"
@@ -5990,7 +5990,7 @@
   "UI": [
     {
       "key": "ui_airbase_area_aircraft",
-      "value": "항공기",
+      "value": "Aircraft",
       "group": null,
       "notes": "",
       "version": "0"
@@ -6004,14 +6004,14 @@
     },
     {
       "key": "ui_airbase_area_crew",
-      "value": "승무원 장비",
+      "value": "Crew Gear",
       "group": null,
       "notes": "",
       "version": "1"
     },
     {
       "key": "ui_airbase_area_crew_training",
-      "value": "훈련",
+      "value": "Training",
       "group": null,
       "notes": null,
       "version": "1"
@@ -6025,35 +6025,35 @@
     },
     {
       "key": "ui_airbase_area_recruitment",
-      "value": "신병 모집",
+      "value": "Recruit",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_airbase_button_campaignmap",
-      "value": "캠페인 지도",
+      "value": "Campaign Map",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_airbase_button_enemyfighteraces",
-      "value": "적 에이스 전투조종사",
+      "value": "Enemy Fighter Aces",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_airbase_button_menu",
-      "value": "메뉴",
+      "value": "Menu",
       "group": null,
       "notes": null,
       "version": "2"
     },
     {
       "key": "ui_airbase_campaign_progress_title",
-      "value": "캠페인 진행도",
+      "value": "Campaign Progress",
       "group": null,
       "notes": null,
       "version": "1"
@@ -6067,35 +6067,35 @@
     },
     {
       "key": "ui_airbase_recruitfullcrew",
-      "value": "임무를 시작하려면 신병을 무집하여 승무원을 모두 채워야합니다.",
+      "value": "Recruit a full crew to start a mission",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_abortmission",
-      "value": "중지",
+      "value": "Abort",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_altlhigh",
-      "value": "고고도",
+      "value": "High",
       "group": null,
       "notes": "Bomber altitude high button",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_altlow",
-      "value": "저고도",
+      "value": "Low",
       "group": null,
       "notes": "Bomber altitude low button",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_altmed",
-      "value": "중고도",
+      "value": "Med",
       "group": null,
       "notes": "Bomber altitude medium button",
       "version": "0"
@@ -6123,35 +6123,35 @@
     },
     {
       "key": "ui_bomber_station_button_autotag",
-      "value": "자동 표적 지정",
+      "value": "Auto Tag",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_bailout",
-      "value": "공중 탈출!",
+      "value": "Bail Out!",
       "group": null,
       "notes": "Bomber bail out order button",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_bombbayclose",
-      "value": "내부무장창 닫기",
+      "value": "Close Doors",
       "group": null,
       "notes": "Bomber close bomb bay doors button",
       "version": "2"
     },
     {
       "key": "ui_bomber_station_button_bombbayopen",
-      "value": "내부무장창 열기",
+      "value": "Open Doors",
       "group": null,
       "notes": "Bomber open bomb bay doors button",
       "version": "2"
     },
     {
       "key": "ui_bomber_station_button_bombrelease",
-      "value": "투하",
+      "value": "Release",
       "group": null,
       "notes": "",
       "version": "0"
@@ -6179,35 +6179,35 @@
     },
     {
       "key": "ui_bomber_station_button_custom_path",
-      "value": "임의 항로 지정",
+      "value": "Custom Heading",
       "group": null,
       "notes": null,
       "version": "2"
     },
     {
       "key": "ui_bomber_station_button_deselectallbombs",
-      "value": "모두 선택해제",
+      "value": "Deselect All",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_emergencydive_plus",
-      "value": "비상 하강+",
+      "value": "Emg Dive+",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_emgdive",
-      "value": "비상 하강",
+      "value": "Emg. Dive",
       "group": null,
       "notes": "Bomber Emergency Dive button",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_emgland",
-      "value": "비상 착륙",
+      "value": "Emg. Land",
       "group": null,
       "notes": "Bomber emergency landing button",
       "version": "0"
@@ -6221,28 +6221,28 @@
     },
     {
       "key": "ui_bomber_station_button_extinguisherengine1",
-      "value": "엔진 1",
+      "value": "Engine 1",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_extinguisherengine2",
-      "value": "엔진 2",
+      "value": "Engine 2",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_extinguisherengine3",
-      "value": "엔진 3",
+      "value": "Engine 3",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_extinguisherengine4",
-      "value": "엔진 4",
+      "value": "Engine 4",
       "group": null,
       "notes": "",
       "version": "0"
@@ -6256,49 +6256,49 @@
     },
     {
       "key": "ui_bomber_station_button_fuelcorrect",
-      "value": "연료 잔량 교정",
+      "value": "Correct",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_fuellean",
-      "value": "희박연소",
+      "value": "Lean",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_fuellean_plus",
-      "value": "희박연소+",
+      "value": "Lean+",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_fuelrich",
-      "value": "풍부연소",
+      "value": "Rich",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_fuelrich_plus",
-      "value": "부스트+",
+      "value": "Boost+",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_fuelrichboost",
-      "value": "부스트",
+      "value": "Boost",
       "group": null,
       "notes": "",
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_fuelsuperrich",
-      "value": "슈퍼 부스트",
+      "value": "Super Boost",
       "group": null,
       "notes": "",
       "version": "1"
@@ -6312,21 +6312,21 @@
     },
     {
       "key": "ui_bomber_station_button_gearlower",
-      "value": "랜딩기어 내리기",
+      "value": "Lower Gear",
       "group": null,
       "notes": "Bomber lower landing gear button",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_gearraise",
-      "value": "랜딩기어 올리기",
+      "value": "Raise Gear",
       "group": null,
       "notes": "Raise bomber landing gear button",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_get_recon",
-      "value": "무전으로 정찰하기",
+      "value": "Radio for recon",
       "group": null,
       "notes": null,
       "version": "1"
@@ -6347,21 +6347,21 @@
     },
     {
       "key": "ui_bomber_station_button_gunreloadbelt",
-      "value": "재장전",
+      "value": "Reload",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_guntestfire",
-      "value": "시험 발사",
+      "value": "Test Fire",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_leavebed",
-      "value": "침대에서 떠나기",
+      "value": "Leave Bed",
       "group": null,
       "notes": null,
       "version": "1"
@@ -6375,70 +6375,70 @@
     },
     {
       "key": "ui_bomber_station_button_navigate_by_stars",
-      "value": "별을 보고 항로 정하기",
+      "value": "Navigate By Stars",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_selectallbombs",
-      "value": "전체 선택",
+      "value": "Select All",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_takeoff",
-      "value": "이륙",
+      "value": "Take Off",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_takephoto",
-      "value": "사진 찍기",
+      "value": "Take Photo",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_button_takephoto_mid",
-      "value": "중고도 사진",
+      "value": "Mid Alt. Photo",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_button_zoommap",
-      "value": "확대",
+      "value": "Zoom",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_bomber_station_engineer_fuel_remaining",
-      "value": "연료 잔량: {0} 분",
+      "value": "Fuel Remaining: {0} min",
       "group": null,
       "notes": null,
       "version": "2"
     },
     {
       "key": "ui_bomber_station_gaugelabel_fueltank1",
-      "value": "연료탱크 1",
+      "value": "Tank 1",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_gaugelabel_fueltank2",
-      "value": "연료탱크 2",
+      "value": "Tank 2",
       "group": null,
       "notes": "",
       "version": "0"
     },
     {
       "key": "ui_bomber_station_gaugelabel_fuelusagerate",
-      "value": "연료소모율",
+      "value": "Usage Rate",
       "group": null,
       "notes": "",
       "version": "0"
@@ -6466,7 +6466,7 @@
     },
     {
       "key": "ui_bomber_station_label_abilities",
-      "value": "능력",
+      "value": "Abilities",
       "group": null,
       "notes": "",
       "version": "0"
@@ -7278,7 +7278,7 @@
     },
     {
       "key": "ui_crewman_gear_upgrade_type",
-      "value": "승무원 장비",
+      "value": "Crew Gear",
       "group": null,
       "notes": null,
       "version": "1"
@@ -7474,7 +7474,7 @@
     },
     {
       "key": "ui_crewtraining_title",
-      "value": "훈련",
+      "value": "Training",
       "group": null,
       "notes": null,
       "version": "1"
@@ -7488,7 +7488,7 @@
     },
     {
       "key": "ui_crewtraining_train_popup_cancel",
-      "value": "취소",
+      "value": "Cancel",
       "group": null,
       "notes": null,
       "version": "1"
@@ -7838,7 +7838,7 @@
     },
     {
       "key": "ui_load_game",
-      "value": "불러오기",
+      "value": "Load Game",
       "group": null,
       "notes": null,
       "version": "1"
@@ -7852,14 +7852,14 @@
     },
     {
       "key": "ui_memorial",
-      "value": "기념비",
+      "value": "Memorial",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_memorial_change_language",
-      "value": "언어 변경",
+      "value": "Change Language",
       "group": null,
       "notes": null,
       "version": "1"
@@ -7873,7 +7873,7 @@
     },
     {
       "key": "ui_memorial_mainmenu",
-      "value": "메뉴",
+      "value": "Menu",
       "group": null,
       "notes": null,
       "version": "1"
@@ -7894,14 +7894,14 @@
     },
     {
       "key": "ui_memorial_namewall_button_next",
-      "value": "다음",
+      "value": "Next",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_memorial_namewall_button_previous",
-      "value": "이전",
+      "value": "Previous",
       "group": null,
       "notes": null,
       "version": "1"
@@ -7915,14 +7915,14 @@
     },
     {
       "key": "ui_menu_option_toggle_off",
-      "value": "끄기",
+      "value": "Off",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_menu_option_toggle_on",
-      "value": "켜기",
+      "value": "On",
       "group": null,
       "notes": null,
       "version": "1"
@@ -7950,14 +7950,14 @@
     },
     {
       "key": "ui_new_game",
-      "value": "새 게임",
+      "value": "New Game",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_new_game_skip",
-      "value": "새 게임 - 훈련을 넘기기",
+      "value": "NEW GAME - skip training",
       "group": null,
       "notes": null,
       "version": "2"
@@ -7971,14 +7971,14 @@
     },
     {
       "key": "ui_pause_menu_back_to_main",
-      "value": "메인 메뉴",
+      "value": "Main Menu",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_camera_controls",
-      "value": "카메라 조작",
+      "value": "Camera Controls",
       "group": null,
       "notes": null,
       "version": "1"
@@ -7992,70 +7992,70 @@
     },
     {
       "key": "ui_pause_menu_close",
-      "value": "계속하기",
+      "value": "Resume",
       "group": null,
       "notes": null,
       "version": "2"
     },
     {
       "key": "ui_pause_menu_control_options",
-      "value": "조작 설정",
+      "value": "Control Options",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_controls",
-      "value": "조작",
+      "value": "Controls",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_crew_controls",
-      "value": "승무원 조작",
+      "value": "Crew Controls",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_crew_details",
-      "value": "승무원 상세 정보",
+      "value": "Crew Details",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_crewstatus_bailedout",
-      "value": "공중탈출함",
+      "value": "Bailed Out",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_crewstatus_dead",
-      "value": "사망",
+      "value": "Dead",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_crewstatus_falling",
-      "value": "추락중",
+      "value": "Falling",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_crewstatus_incapacitated",
-      "value": "무력화됨",
+      "value": "Incapacitated",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_enable_slow_down",
-      "value": "'Slow Time' 허용",
+      "value": "Allow 'Slow Time'",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8069,7 +8069,7 @@
     },
     {
       "key": "ui_pause_menu_hints",
-      "value": "힌트 보기",
+      "value": "Show Hints",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8097,7 +8097,7 @@
     },
     {
       "key": "ui_pause_menu_quit_confirm",
-      "value": "저장하고 그만두고 메인 메뉴로 가시겠습니까?",
+      "value": "Save and quit to the main menu?",
       "group": null,
       "notes": null,
       "version": "2"
@@ -8118,28 +8118,28 @@
     },
     {
       "key": "ui_pause_menu_quit_no",
-      "value": "취소",
+      "value": "Cancel",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_quit_title",
-      "value": "정말로 그만두시겠습니까?",
+      "value": "Really Quit?",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_quit_yes",
-      "value": "그만두기",
+      "value": "Quit",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_quit_yes_save",
-      "value": "저장하고 그만두기",
+      "value": "Save & Quit",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8153,14 +8153,14 @@
     },
     {
       "key": "ui_pause_menu_sound_volume_effects",
-      "value": "효과음 볼륨",
+      "value": "Effects Volume",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_pause_menu_sound_volume_music",
-      "value": "음악 볼륨",
+      "value": "Music Volume",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8188,7 +8188,7 @@
     },
     {
       "key": "ui_pixelarteditor_cancel",
-      "value": "취소",
+      "value": "Cancel",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8237,7 +8237,7 @@
     },
     {
       "key": "ui_quit_game",
-      "value": "종료하기",
+      "value": "Quit Game",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8251,7 +8251,7 @@
     },
     {
       "key": "ui_recruitment_button_cancel",
-      "value": "취소",
+      "value": "Cancel",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8328,7 +8328,7 @@
     },
     {
       "key": "ui_rename_popup_cancel",
-      "value": "취소",
+      "value": "Cancel",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8349,14 +8349,14 @@
     },
     {
       "key": "ui_return_to_menu",
-      "value": "그만두고 메인 메뉴로 가기",
+      "value": "Quit To Main Menu",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_save_empty_slot",
-      "value": "빈 슬롯",
+      "value": "Empty Slot",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8370,14 +8370,14 @@
     },
     {
       "key": "ui_save_menu_back",
-      "value": "뒤로",
+      "value": "Back",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_save_menu_cancel",
-      "value": "취소",
+      "value": "Cancel",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8419,14 +8419,14 @@
     },
     {
       "key": "ui_save_menu_select_slot_new",
-      "value": "새 게임을 저장할 슬롯을 선택하세요:",
+      "value": "Select a slot for a new game:",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_savedata_description",
-      "value": "{0}개의 임무를 수행함, £{1:N0}",
+      "value": "{0} Missions Played, £{1:N0}",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8447,7 +8447,7 @@
     },
     {
       "key": "ui_system_camera_sensitivity",
-      "value": "카메라 회전 민감도",
+      "value": "Camera Drag Sensitivity",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8461,7 +8461,7 @@
     },
     {
       "key": "ui_system_dlc_warning_cancel",
-      "value": "취소",
+      "value": "Cancel",
       "group": null,
       "notes": null,
       "version": "1"
@@ -8475,28 +8475,28 @@
     },
     {
       "key": "ui_system_invert_hzoomed",
-      "value": "X축 스크롤 반전 (확대/축소)",
+      "value": "Invert X Scroll (Zoomed In)",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_system_invert_look",
-      "value": "카메라 Y축 회전 반전",
+      "value": "Invert Camera Y Axis",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_system_music",
-      "value": "배경음악",
+      "value": "Music",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_system_targeting_sensitivity",
-      "value": "표적 지정 모드 민감도",
+      "value": "Tagging Mode Sensitivity",
       "group": null,
       "notes": null,
       "version": "1"

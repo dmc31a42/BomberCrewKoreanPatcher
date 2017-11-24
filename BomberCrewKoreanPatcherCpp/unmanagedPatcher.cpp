@@ -51,11 +51,21 @@ unmanagedPatcher::unmanagedPatcher(string gameFolderPath, string currentDirector
 #ifdef MY_DEBUG
 	cout << "_gameFolderPath : " << _gameFolderPath << endl;
 	cout << "_currentDirectory : " << _currentDirectory << endl;
+	cout << "(_gameFolderPath + resAssetsFileName).c_str() : " << (_gameFolderPath + resAssetsFileName).c_str() << endl;
+	cout << "(_gameFolderPath + sharedAssetsFileName).c_str() : " << (_gameFolderPath + sharedAssetsFileName).c_str() << endl;
+	cout << "(_currentDirectory + classDatabaseFileName).c_str() : " << (_currentDirectory + classDatabaseFileName).c_str() << endl;
 #endif
 
-	pResAssetsFile = fopen((_gameFolderPath + resAssetsFileName).c_str(), "rb");
+	/*pResAssetsFile = fopen((_gameFolderPath + resAssetsFileName).c_str(), "rb");
 	psharedAssetsFile = fopen((_gameFolderPath + sharedAssetsFileName).c_str(), "rb");
-	pClassDatabaseFile = fopen((_currentDirectory + classDatabaseFileName).c_str(), "rb");
+	pClassDatabaseFile = fopen((_currentDirectory + classDatabaseFileName).c_str(), "rb");*/
+	fopen_s(&pResAssetsFile, (_gameFolderPath + resAssetsFileName).c_str(), "rb");
+	fopen_s(&psharedAssetsFile, (_gameFolderPath + sharedAssetsFileName).c_str(), "rb");
+	fopen_s(&pClassDatabaseFile, (_currentDirectory + classDatabaseFileName).c_str(), "rb");
+
+#ifdef MY_DEBUG
+	//cout << pResAssetsFile->
+#endif
 
 	resAssetsFile = new AssetsFile(AssetsReaderFromFile, (LPARAM)pResAssetsFile);
 	sharedAssetsFile = new AssetsFile(AssetsReaderFromFile, (LPARAM)psharedAssetsFile);
@@ -376,7 +386,9 @@ void unmanagedPatcher::MakeModdedAssets()
 			continue;
 		}
 		sharedPatchFileName.push_back(temp);
+#ifdef MY_DEBUG
 		cout << sharedPatchFileName[sharedPatchFileName.size() - 1] << endl;
+#endif
 		pTempPatchFile = fopen(temp.c_str(), "rb");
 		if (pTempPatchFile == NULL)
 		{
@@ -447,7 +459,9 @@ void unmanagedPatcher::MakeModdedAssets()
 			continue;
 		}
 		resPatchFileName.push_back(temp);
+#ifdef MY_DEBUG
 		cout << resPatchFileName[resPatchFileName.size() - 1] << endl;
+#endif
 		pTempPatchFile = fopen(temp.c_str(), "rb");
 		if (pTempPatchFile == NULL)
 		{
