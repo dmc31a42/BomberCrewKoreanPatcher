@@ -435,7 +435,7 @@ void unmanagedPatcher::MakeModdedAssets()
 	//////////////////////////////////////////////
 	// resources
 	//////////////////////////////////////////////
-	string resPatchListFilePath = "temp\\sharedassets0_patch\\sharedassets0_patch_list.txt";
+	string resPatchListFilePath = "temp\\resources_patch\\resources_patch_list.txt";
 
 	ifstream ifsResPatchListFile(resPatchListFilePath);
 	std::vector<string> resPatchFileName;
