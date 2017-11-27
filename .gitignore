@@ -36,12 +36,13 @@
 *.app
 
 ### Unity ###
-/UnityTextMeshProPorject/[Ll]ibrary/
-/UnityTextMeshProPorject/[Tt]emp/
-/UnityTextMeshProPorject/[Oo]bj/
-/UnityTextMeshProPorject/[Bb]uild/
-/UnityTextMeshProPorject/[Bb]uilds/
-/UnityTextMeshProPorject/Assets/AssetStoreTools*
+/Unity2DToolKitProject/[Ll]ibrary/
+/Unity2DToolKitProject/[Tt]emp/
+/Unity2DToolKitProject/[Oo]bj/
+#/Unity2DToolKitProject/[Bb]uild/
+/Unity2DToolKitProject/[Bb]uilds/
+/Unity2DToolKitProject/Assets/AssetStoreTools*
+/Unity2DToolKitProject/Assets/TK2DROOT/
 
 # Visual Studio 2015 cache directory
 /.vs/
