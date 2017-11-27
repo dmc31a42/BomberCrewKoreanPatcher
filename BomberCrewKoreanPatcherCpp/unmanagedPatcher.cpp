@@ -490,7 +490,7 @@ void unmanagedPatcher::MakeModdedAssets()
 			pResPatchFile[i], 0, (QWORD)filesize(pResPatchFile[i]))); // I expect that the size parameter refers to the file size but I couldn't check this until now
 	}
 	FILE *pModdedResFile = fopen((resModdedFilePath).c_str(), "wb");
-	sharedAssetsFile->Write(AssetsWriterToFile, (LPARAM)pModdedResFile, 0, resReplacors.data(), resReplacors.size(), 0);
+	resAssetsFile->Write(AssetsWriterToFile, (LPARAM)pModdedResFile, 0, resReplacors.data(), resReplacors.size(), 0);
 
 	for (unsigned int i = 0; i < pResPatchFile.size(); i++)
 	{
@@ -505,7 +505,6 @@ void unmanagedPatcher::MakeModdedAssets()
 		fclose(pModdedResFile);
 		pModdedResFile = NULL;
 	}
-
 
 #ifdef MY_DEBUG
 	cout << "Slime Rancher Korean Translation Patch Complete. Exit" << endl;

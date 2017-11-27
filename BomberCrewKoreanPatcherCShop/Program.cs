@@ -27,6 +27,7 @@ namespace BomberCrewKoreanPatcherCShop
 
         static void Main(string[] args)
         {
+            Console.WriteLine(GAME_NAME + " 게임 폴더 위치 찾는중...");
             BomberCrewPath = FindUnityFolderPath();
             if(BomberCrewPath == "ERROR")
             {
@@ -42,19 +43,24 @@ namespace BomberCrewKoreanPatcherCShop
                 }
             }
             currentDirectoryPath = Directory.GetCurrentDirectory() + @"\";
+            Console.WriteLine("번역된 문장 다운로드중...");
             string downloadedFileName = DownloadStringFile();
-
+            Console.WriteLine("에셋 정보 추출중...");
             BomberCrewKoreanPatcherManagedCpp.ManagedPatcher managedPatcher
                 = new BomberCrewKoreanPatcherManagedCpp.ManagedPatcher(BomberCrewPath, currentDirectoryPath);
 
             BomberCrewKoreanPatcherManagedCpp.AssetInfo[] AssetInfos =  managedPatcher.GetAssetInfos();
+            Console.WriteLine("패치 파일 생성중...");
             MakeAssetFile(AssetInfos);
-
+            Console.WriteLine("패치된 유니티 에셋 생성중...");
             managedPatcher.MakeModdedAssets();
             managedPatcher.Dispose();
+            Console.WriteLine("유니티 에셋 원본과 패치된 파일 교체중...");
             SwitchFile();
-
-            Console.WriteLine("한글패치 완료 Press any key to exit");
+            Console.WriteLine("한글 폰트 이미지 파일 복사중...");
+            File.Copy(RESOURCE_FOLDER_PATH + @"koreanAtlas.assets.resS", BomberCrewPath + @"koreanAtlas.assets.resS", true);
+            Console.WriteLine("한글패치 완료!");
+            Console.WriteLine("종료하려면 창을 끄거나 아무 키나 누르시오."); ;
             Console.Read();
         }
 
@@ -224,35 +230,35 @@ namespace BomberCrewKoreanPatcherCShop
 
             CreateFolderOrClean(SHAREDASSETS0_PATCH_PATH);
             List<string> PatchList = new List<string>();
-                // Material
-                for (int i = 0; i < materialName.Length; i++)
-                {
-                    AssetInfo materialInfo = Array.Find(AssetInfos, x => x.name == materialName[i]);
-                    File.Copy(RESOURCE_FOLDER_PATH + materialName[i] + @".dat", SHAREDASSETS0_PATCH_PATH + "Raw_0_" + materialInfo.pathID + ".dat", true);
+            // Material
+            for (int i = 0; i < materialName.Length; i++)
+            {
+                AssetInfo materialInfo = Array.Find(AssetInfos, x => x.name == materialName[i]);
+                File.Copy(RESOURCE_FOLDER_PATH + materialName[i] + @".dat", SHAREDASSETS0_PATCH_PATH + "Raw_0_" + materialInfo.pathID + ".dat", true);
                 PatchList.Add(SHAREDASSETS0_PATCH_PATH + "Raw_0_" + materialInfo.pathID + ".dat");
-                    using (FileStream fsMaterial = new FileStream(SHAREDASSETS0_PATCH_PATH + "Raw_0_" + materialInfo.pathID + ".dat", FileMode.Open, FileAccess.ReadWrite))
+                using (FileStream fsMaterial = new FileStream(SHAREDASSETS0_PATCH_PATH + "Raw_0_" + materialInfo.pathID + ".dat", FileMode.Open, FileAccess.ReadWrite))
+                {
+                    // Shader
+                    fsMaterial.Seek(0x00000018, SeekOrigin.Begin);
+                    AssetInfo shaderInfo = Array.Find(AssetInfos, x => x.name == materialName[i] + shaderSuffix);
+                    byte[] byteShaderPathID = BitConverter.GetBytes(shaderInfo.pathID);
+                    for (int j = 0; j < 4; j++)
                     {
-                        // Shader
-                        fsMaterial.Seek(0x00000018, SeekOrigin.Begin);
-                        AssetInfo shaderInfo = Array.Find(AssetInfos, x => x.name == materialName[i] + shaderSuffix);
-                        byte[] byteShaderPathID = BitConverter.GetBytes(shaderInfo.pathID);
-                        for (int j = 0; j < 4; j++)
-                        {
-                            fsMaterial.WriteByte(byteShaderPathID[j]);
-                        }
-
-                        // Atlas
-                        fsMaterial.Seek(0x0000004C, SeekOrigin.Begin);
-                        AssetInfo atlasInfo = Array.Find(AssetInfos, x => x.name == materialName[i] + atlasSuffix);
-                        byte[] byteAtlasPathID = BitConverter.GetBytes(atlasInfo.pathID);
-                        for (int j = 0; j < 4; j++)
-                        {
-                            fsMaterial.WriteByte(byteAtlasPathID[j]);
-                        }
-                        File.Copy(RESOURCE_FOLDER_PATH + materialName[i] + atlasSuffix + @".dat", SHAREDASSETS0_PATCH_PATH + "Raw_0_" + atlasInfo.pathID + ".dat", true);
-                    PatchList.Add(SHAREDASSETS0_PATCH_PATH + "Raw_0_" + atlasInfo.pathID + ".dat");
+                        fsMaterial.WriteByte(byteShaderPathID[j]);
                     }
+
+                    // Atlas
+                    fsMaterial.Seek(0x0000004C, SeekOrigin.Begin);
+                    AssetInfo atlasInfo = Array.Find(AssetInfos, x => x.name == materialName[i] + atlasSuffix);
+                    byte[] byteAtlasPathID = BitConverter.GetBytes(atlasInfo.pathID);
+                    for (int j = 0; j < 4; j++)
+                    {
+                        fsMaterial.WriteByte(byteAtlasPathID[j]);
+                    }
+                    File.Copy(RESOURCE_FOLDER_PATH + materialName[i] + atlasSuffix + @".dat", SHAREDASSETS0_PATCH_PATH + "Raw_0_" + atlasInfo.pathID + ".dat", true);
+                    PatchList.Add(SHAREDASSETS0_PATCH_PATH + "Raw_0_" + atlasInfo.pathID + ".dat");
                 }
+            }
 
             for (int i = 0; i < gameObjectName.Length; i++)
             {
@@ -329,7 +335,7 @@ namespace BomberCrewKoreanPatcherCShop
                         fsLanguageData.WriteByte((byte)fsDownloaded.ReadByte());
                     }
                 }
-                while(fsLanguageData.Length%4 ==0)
+                while(fsLanguageData.Length%4 !=0)
                 {
                     fsLanguageData.WriteByte((byte)0);
                 }
