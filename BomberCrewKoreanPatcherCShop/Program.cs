@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BomberCrewKoreanPatcherManagedCpp;
+using Newtonsoft.Json.Linq;
 
 namespace BomberCrewKoreanPatcherCShop
 {
@@ -42,14 +43,16 @@ namespace BomberCrewKoreanPatcherCShop
                     BomberCrewPath = readFolderPath;
                 }
             }
+            Console.WriteLine("임시폴더 비우는중");
+            CreateFolderOrClean(TEMP_FOLDER_NAME);
             currentDirectoryPath = Directory.GetCurrentDirectory() + @"\";
-            Console.WriteLine("번역된 문장 다운로드중...");
-            string downloadedFileName = DownloadStringFile();
             Console.WriteLine("에셋 정보 추출중...");
             BomberCrewKoreanPatcherManagedCpp.ManagedPatcher managedPatcher
                 = new BomberCrewKoreanPatcherManagedCpp.ManagedPatcher(BomberCrewPath, currentDirectoryPath);
-
-            BomberCrewKoreanPatcherManagedCpp.AssetInfo[] AssetInfos =  managedPatcher.GetAssetInfos();
+            BomberCrewKoreanPatcherManagedCpp.AssetInfo[] AssetInfos = managedPatcher.GetAssetInfos();
+            Console.WriteLine("번역된 문장 다운로드 및 적용중...");
+            string downloadedFileName = DownloadStringFile();
+            PatchString();
             Console.WriteLine("패치 파일 생성중...");
             MakeAssetFile(AssetInfos);
             Console.WriteLine("패치된 유니티 에셋 생성중...");
@@ -62,6 +65,45 @@ namespace BomberCrewKoreanPatcherCShop
             Console.WriteLine("한글패치 완료!");
             Console.WriteLine("종료하려면 창을 끄거나 아무 키나 누르시오."); ;
             Console.Read();
+        }
+
+        private static void PatchString()
+        {
+            string originalText = System.IO.File.ReadAllText(TEMP_FOLDER_NAME + "LanguageData.json.txt");
+            string downloadedText = System.IO.File.ReadAllText(TEMP_FOLDER_NAME + "downloaded_" + "LanguageData.json.txt");
+            JObject originalJSON = JObject.Parse(originalText);
+            JObject downloadedJSON = JObject.Parse(downloadedText);
+
+            string[] keys =
+                {
+                    "Traits",
+                    "Crewman Gear (NON-UI)",
+                    "Tutorial",
+                    "How To Play",
+                    "Speech",
+                    "UI",
+                    "Bomber Upgrades (NON-UI)",
+                    "Missions",
+                    "MissionSpeech",
+                    "BombLoads",
+                    "Ranks",
+                    "Skills"
+            };
+
+            foreach(string key in keys)
+            {
+                foreach(JToken token in originalJSON[key].Children())
+                {
+                    try
+                    {
+                        token["value"] = downloadedJSON[key].Children().First(p => p["key"].Value<string>() == token["key"].Value<string>())["value"];
+                    }
+                    catch(InvalidOperationException)
+                    { }
+                }
+            }
+            System.IO.File.WriteAllText(TEMP_FOLDER_NAME + "LanguageData.json.txt", originalJSON.ToString());
+
         }
 
         static void SwitchFile()
@@ -90,6 +132,7 @@ namespace BomberCrewKoreanPatcherCShop
         //        }
         //    }
         //}
+
         static void FileDeleteIfExist(string filePath)
         {
             FileInfo fileDel = new FileInfo(filePath);
@@ -173,13 +216,13 @@ namespace BomberCrewKoreanPatcherCShop
             string downloadFileName = "";
             string[] splitedDownloadURL = downloadURL.Split('/');
             downloadFileName = splitedDownloadURL[splitedDownloadURL.Length - 1];
-            CreateFolderOrClean(TEMP_FOLDER_NAME);
+            
             WebClient webClient = new WebClient();
             try
             {
                 // 폴더없는 단일경로의 경우 앞에 .\ 무조건 붙여야함 아니면 예외뜸
                 // 그리고 파일이 있으면 예외뜸
-                webClient.DownloadFile(downloadURL, TEMP_FOLDER_NAME + downloadFileName);
+                webClient.DownloadFile(downloadURL, TEMP_FOLDER_NAME + "downloaded_" + downloadFileName);
             }
             catch (WebException ex)
             {
@@ -191,6 +234,7 @@ namespace BomberCrewKoreanPatcherCShop
                 Console.WriteLine(ex.ToString());
                 throw ex;
             }
+
             return downloadFileName;
         }
 

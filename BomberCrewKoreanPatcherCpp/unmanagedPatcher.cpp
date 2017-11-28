@@ -157,7 +157,24 @@ void unmanagedPatcher::FindInformation()
 			tempAssetInfo.offset = tempAssetFileInfoEx->absolutePos;
 			tempAssetInfo.size = tempAssetFileInfoEx->curFileSize;
 			assetInfos.push_back(tempAssetInfo);
-			break;
+
+			// extract original txt file
+			AssetTypeTemplateField *tempAssetTypeTemplateField = new AssetTypeTemplateField;
+			tempAssetTypeTemplateField->FromClassDatabase(classDatabaseFile, &classDatabaseFile->classes[findByClassID[tempAssetFileInfoEx->curFileType]], (DWORD)0);
+			AssetTypeInstance tempAssetTypeInstance((DWORD)1, &tempAssetTypeTemplateField, AssetsReaderFromFile, (LPARAM)pResAssetsFile, resAssetsFile->header.endianness ? true : false, tempAssetFileInfoEx->absolutePos);
+			AssetTypeValueField *pBase = tempAssetTypeInstance.GetBaseField();
+			if (pBase)
+			{
+				AssetTypeValueField *pm_Script = pBase->Get("m_Script");
+				if (pm_Script && pm_Script->IsDummy() == false)
+				{
+					string m_Script = pm_Script->GetValue()->AsString();
+					ofstream ofsTempTxt(_currentDirectory + "temp\\" + tempAssetInfo.name + ".txt");
+					ofsTempTxt << m_Script;
+					ofsTempTxt.close();
+					break;
+				}
+			}
 		}
 	}
 
