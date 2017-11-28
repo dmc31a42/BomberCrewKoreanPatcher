@@ -7950,14 +7950,14 @@
     },
     {
       "key": "ui_new_game",
-      "value": "New Game",
+      "value": "새 게임",
       "group": null,
       "notes": null,
       "version": "1"
     },
     {
       "key": "ui_new_game_skip",
-      "value": "NEW GAME - skip training",
+      "value": "새 게임 - 훈련을 넘기기",
       "group": null,
       "notes": null,
       "version": "2"
