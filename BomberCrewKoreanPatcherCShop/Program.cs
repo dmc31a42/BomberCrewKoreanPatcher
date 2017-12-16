@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using BomberCrewKoreanPatcherManagedCpp;
 using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 
 namespace BomberCrewKoreanPatcherCShop
 {
@@ -25,56 +26,9 @@ namespace BomberCrewKoreanPatcherCShop
         const string UNITY_RESOURCES_ASSETS_NAME = "resources.assets";
         const string UNITY_SHARED0_ASSETS_NAME = "sharedassets0.assets";
         const bool DEBUG = true;
-
-        static void Main(string[] args)
-        {
-            Console.WriteLine(GAME_NAME + " 게임 폴더 위치 찾는중...");
-            BomberCrewPath = FindUnityFolderPath();
-            if(BomberCrewPath == "ERROR")
-            {
-                Console.WriteLine("Please Write " + GAME_NAME + "_Data\\ Folder Full Path and Press ENTER : ");
-                string readFolderPath = Console.ReadLine();
-                if (readFolderPath.Substring(readFolderPath.Length - 1, 1) != "\\")
-                {
-                    readFolderPath = readFolderPath + "\\";
-                }
-                if (FolderExist(readFolderPath) && FileExist(readFolderPath + UNITY_RESOURCES_ASSETS_NAME))
-                {
-                    BomberCrewPath = readFolderPath;
-                }
-            }
-            Console.WriteLine("임시폴더 비우는중");
-            CreateFolderOrClean(TEMP_FOLDER_NAME);
-            currentDirectoryPath = Directory.GetCurrentDirectory() + @"\";
-            Console.WriteLine("에셋 정보 추출중...");
-            BomberCrewKoreanPatcherManagedCpp.ManagedPatcher managedPatcher
-                = new BomberCrewKoreanPatcherManagedCpp.ManagedPatcher(BomberCrewPath, currentDirectoryPath);
-            BomberCrewKoreanPatcherManagedCpp.AssetInfo[] AssetInfos = managedPatcher.GetAssetInfos();
-            Console.WriteLine("번역된 문장 다운로드 및 적용중...");
-            string downloadedFileName = DownloadStringFile();
-            PatchString();
-            Console.WriteLine("패치 파일 생성중...");
-            MakeAssetFile(AssetInfos);
-            Console.WriteLine("패치된 유니티 에셋 생성중...");
-            managedPatcher.MakeModdedAssets();
-            managedPatcher.Dispose();
-            Console.WriteLine("유니티 에셋 원본과 패치된 파일 교체중...");
-            SwitchFile();
-            Console.WriteLine("한글 폰트 이미지 파일 복사중...");
-            File.Copy(RESOURCE_FOLDER_PATH + @"koreanAtlas.assets.resS", BomberCrewPath + @"koreanAtlas.assets.resS", true);
-            Console.WriteLine("한글패치 완료!");
-            Console.WriteLine("종료하려면 창을 끄거나 아무 키나 누르시오."); ;
-            Console.Read();
-        }
-
-        private static void PatchString()
-        {
-            string originalText = System.IO.File.ReadAllText(TEMP_FOLDER_NAME + "LanguageData.json.txt");
-            string downloadedText = System.IO.File.ReadAllText(TEMP_FOLDER_NAME + "downloaded_" + "LanguageData.json.txt");
-            JObject originalJSON = JObject.Parse(originalText);
-            JObject downloadedJSON = JObject.Parse(downloadedText);
-
-            string[] keys =
+        const string currentVersion = "20171216";
+        const string currentVersionURL = @"https://github.com/dmc31a42/BomberCrewKoreanPatcher/raw/master/currentVersion.txt";
+        static string[] categorys =
                 {
                     "Traits",
                     "Crewman Gear (NON-UI)",
@@ -90,20 +44,322 @@ namespace BomberCrewKoreanPatcherCShop
                     "Skills"
             };
 
-            foreach(string key in keys)
+        static void Main(string[] args)
+        {
+            switch(args.Length)
             {
-                foreach(JToken token in originalJSON[key].Children())
-                {
-                    try
+                case 0:
                     {
-                        token["value"] = downloadedJSON[key].Children().First(p => p["key"].Value<string>() == token["key"].Value<string>())["value"];
+                        Console.WriteLine(GAME_NAME + " 게임 폴더 위치 찾는중...");
+                        BomberCrewPath = FindUnityFolderPath();
+                        if (BomberCrewPath == "ERROR")
+                        {
+                            Console.WriteLine("Please Write " + GAME_NAME + "_Data\\ Folder Full Path and Press ENTER : ");
+                            string readFolderPath = Console.ReadLine();
+                            if (readFolderPath.Substring(readFolderPath.Length - 1, 1) != "\\")
+                            {
+                                readFolderPath = readFolderPath + "\\";
+                            }
+                            if (FolderExist(readFolderPath) && FileExist(readFolderPath + UNITY_RESOURCES_ASSETS_NAME))
+                            {
+                                BomberCrewPath = readFolderPath;
+                            }
+                        }
+                        currentDirectoryPath = Directory.GetCurrentDirectory() + @"\";
+                        Console.WriteLine("임시폴더 비우는중");
+                        if (CreateFolderOrClean(TEMP_FOLDER_NAME) == false)
+                        {
+                            Console.WriteLine(TEMP_FOLDER_NAME + " 폴더를 삭제할 수 없습니다.");
+                            Console.WriteLine("직접 삭제하신 후 다시 실행하여주세요");
+                            Console.WriteLine("종료하려면 창을 끄거나 아무 키나 누르시오.");
+                            Console.Read();
+                            return;
+                        }
+                        Console.WriteLine("온라인상에서 최신버전이 있는지 확인하는 중...");
+                        if (CheckLastVersion() == false)
+                        {
+                            Console.WriteLine("온라인상에 업데이트된 최신버전이 존재합니다.");
+                            Console.Write("그래도 계속 진행하겠습니까?(Y/n) : ");
+                            ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+                            if (consoleKeyInfo.KeyChar == 'Y')
+                            {
+                                Console.WriteLine("");
+                            }
+                            else
+                            {
+                                Console.WriteLine("\n인터넷에서 새로운 패치를 다운받아주세요. 패치를 중단합니다.");
+                                Console.WriteLine("종료하려면 창을 끄거나 아무 키나 누르시오.");
+                                Console.Read();
+                                return;
+                            }
+                        }
+                        Console.WriteLine("에셋 정보 추출중...");
+                        BomberCrewKoreanPatcherManagedCpp.ManagedPatcher managedPatcher
+                            = new BomberCrewKoreanPatcherManagedCpp.ManagedPatcher(BomberCrewPath, currentDirectoryPath);
+                        BomberCrewKoreanPatcherManagedCpp.AssetInfo[] AssetInfos = managedPatcher.GetAssetInfos();
+                        Console.WriteLine("번역된 문장 다운로드 및 적용중...");
+                        DownloadWebTranslatorNPatch();
+                        Console.WriteLine("패치 파일 생성중...");
+                        MakeAssetFile(AssetInfos);
+                        Console.WriteLine("패치된 유니티 에셋 생성중...");
+                        managedPatcher.MakeModdedAssets();
+                        managedPatcher.Dispose();
+                        Console.WriteLine("유니티 에셋 원본과 패치된 파일 교체중...");
+                        SwitchFile();
+                        Console.WriteLine("한글 폰트 이미지 파일 복사중...");
+                        File.Copy(RESOURCE_FOLDER_PATH + @"koreanAtlas.assets.resS", BomberCrewPath + @"koreanAtlas.assets.resS", true);
+                        Console.WriteLine("한글패치 완료!");
+                        Console.WriteLine("종료하려면 창을 끄거나 아무 키나 누르시오."); ;
+                        Console.Read();
                     }
-                    catch(InvalidOperationException)
-                    { }
+                    break;
+                case 1:
+                    {
+                        switch (args[0])
+                        {
+                            case "-Update":
+                                Console.WriteLine(GAME_NAME + " 게임 폴더 위치 찾는중...");
+                                BomberCrewPath = FindUnityFolderPath();
+                                if (BomberCrewPath == "ERROR")
+                                {
+                                    Console.WriteLine("Please Write " + GAME_NAME + "_Data\\ Folder Full Path and Press ENTER : ");
+                                    string readFolderPath = Console.ReadLine();
+                                    if (readFolderPath.Substring(readFolderPath.Length - 1, 1) != "\\")
+                                    {
+                                        readFolderPath = readFolderPath + "\\";
+                                    }
+                                    if (FolderExist(readFolderPath) && FileExist(readFolderPath + UNITY_RESOURCES_ASSETS_NAME))
+                                    {
+                                        BomberCrewPath = readFolderPath;
+                                    }
+                                }
+                                Console.WriteLine("임시폴더 비우는중");
+                                CreateFolderOrClean(TEMP_FOLDER_NAME);
+                                currentDirectoryPath = Directory.GetCurrentDirectory() + @"\";
+                                Console.WriteLine("에셋 정보 추출중...");
+                                BomberCrewKoreanPatcherManagedCpp.ManagedPatcher managedPatcher
+                                    = new BomberCrewKoreanPatcherManagedCpp.ManagedPatcher(BomberCrewPath, currentDirectoryPath);
+                                BomberCrewKoreanPatcherManagedCpp.AssetInfo[] AssetInfos = managedPatcher.GetAssetInfos();
+                                Console.WriteLine("번역된 문장 다운로드 및 적용중...");
+                                DownloadWebTranslationNUpdate();
+                                Console.WriteLine("프로그램이 종료되면 임시로 생성된 파일들이 지워집니다.");
+                                Console.WriteLine("종료하려면 창을 끄거나 아무 키나 누르시오.");
+                                Console.Read();
+                                Console.WriteLine("임시로 생성된 파일 삭제 중...");
+                                DeleteFolder(currentDirectoryPath + TEMP_FOLDER_NAME);
+                                break;
+                        }
+                        break;
+                    }
+            }
+        }
+
+        static void DeleteFolder(string folderName)
+        {
+            DirectoryInfo di = new DirectoryInfo(folderName);
+            if (di.Exists == true)
+            {
+                Directory.Delete(folderName, true);
+            }
+        }
+
+        static bool CheckLastVersion()
+        {
+            string currentVersionFilePath = TEMP_FOLDER_NAME + "currentVersion.txt";
+            WebClient webClient = new WebClient();
+            try
+            {
+                webClient.DownloadFile(currentVersionURL, currentVersionFilePath);
+                string onlineVersion = System.IO.File.ReadAllText(currentVersionFilePath);
+                if (onlineVersion == currentVersion)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
-            System.IO.File.WriteAllText(TEMP_FOLDER_NAME + "LanguageData.json.txt", originalJSON.ToString());
+            catch
+            {
+                Console.WriteLine("최신버전을 확인하는 도중 오류가 발생하였습니다. 현재 버전으로 패치를 계속합니다.");
+                return true;
+            }
+        }
 
+        private static void MakeUpdateText(string originalTXTPath, string translatedPoPath, string newTranslatedPoPath)
+        {
+            
+            string[] categorys =
+                {
+                    "Traits",
+                    "Crewman Gear (NON-UI)",
+                    "Tutorial",
+                    "How To Play",
+                    "Speech",
+                    "UI",
+                    "Bomber Upgrades (NON-UI)",
+                    "Missions",
+                    "MissionSpeech",
+                    "BombLoads",
+                    "Ranks",
+                    "Skills"
+            };
+            string originalTextString = System.IO.File.ReadAllText(originalTXTPath);
+            string downloadedPoString = System.IO.File.ReadAllText(translatedPoPath);
+            Dictionary<string, Dictionary<string, string>> dictionary = new Dictionary<string, Dictionary<string, string>>();
+            for(int i=0; i<categorys.Length; i++)
+            {
+                dictionary.Add(categorys[i], new Dictionary<string, string>());
+            }
+
+        }
+
+        static List<string> DownloadWebFileOrCopyOfflineFile(string URLListTXTPath)
+        {
+            string CSVURLString = System.IO.File.ReadAllText(URLListTXTPath);
+            CSVURLString = CSVURLString.Replace("\r", "");
+            string[] CSVURL = CSVURLString.Split('\n');
+            List<string[]> ListFileNameAndURL = new List<string[]>();
+            List<string> ListFileName = new List<string>();
+            List<string> ListFileURL = new List<string>();
+            for (int i = 0; i < CSVURL.Length; i++)
+            {
+                if (CSVURL[i] != string.Empty)
+                {
+                    string[] tempNAMEURL = CSVURL[i].Split('\\');
+                    ListFileNameAndURL.Add(tempNAMEURL);
+                    ListFileName.Add(tempNAMEURL[0]);
+                    ListFileURL.Add(tempNAMEURL[1]);
+                }
+            }
+            foreach (string[] NameAndURL in ListFileNameAndURL)
+            {
+                DownloadWebFileOrCopyOfflineFile(NameAndURL[0], NameAndURL[1], ".po");
+            }
+            return ListFileName;
+        }
+        static void DownloadWebFileOrCopyOfflineFile(string name, string url, string extension)
+        {
+            if (extension != string.Empty & extension[0] != '.')
+            {
+                extension = "." + extension;
+            }
+            WebClient webClient = new WebClient();
+            try
+            {
+                webClient.DownloadFile(url, TEMP_FOLDER_NAME + "\\" + name + extension);
+            }
+            catch
+            {
+                Console.WriteLine(name + "      \t번역 파일을 받는 중 오류가 발생하였습니다. 오프라인 파일을 사용합니다.");
+                File.Copy(RESOURCE_FOLDER_PATH + name + ".po", TEMP_FOLDER_NAME + name + extension, true);
+            }
+        }
+
+        static Dictionary<string, string> LoadFromPo(string translatedPoPath)
+        {
+            Dictionary<string, string> translatedPoDictionary = new Dictionary<string, string>();
+            string translatedPoString = System.IO.File.ReadAllText(translatedPoPath);
+            // https://regexr.com/3hnbt
+            MatchCollection translatedPoMatchCollection = Regex.Matches(translatedPoString, "msgctxt \"(.*)\"\\nmsgid ([\\s\\S]*?)\\nmsgstr ([\\s\\S]+?)\"\\n\\n");
+            foreach (Match match in translatedPoMatchCollection)
+            {
+                string key = match.Groups[1].Value.Replace("\"", string.Empty);
+                string value = match.Groups[3].Value;
+                value = Regex.Replace(value, "^\"|\"\n\"|\"$", string.Empty);
+                value = value.Trim().Replace("\\n", "\n").Replace("\\\"", "\"").Trim();
+                translatedPoDictionary.Add(key, value);
+            }
+            return translatedPoDictionary;
+        }
+
+        static void WriteToPo(JObject originalJSON)
+        {
+            foreach (string category in categorys)
+            {
+                WriteToPo(originalJSON, category, new Dictionary<string, string>());
+            }
+        }
+        static void WriteToPo(JObject originalJSON, string category, Dictionary<string, string> translatedDictionary)
+        {
+            int i = 1;
+            string potString = "";
+            foreach (JToken token in originalJSON[category].Children())
+            {
+                string key = token["key"].Value<string>();
+                string originalText = token["value"].Value<string>().Replace("\r",string.Empty);
+                string translatedText = "";
+                if(translatedDictionary.TryGetValue(key, out translatedText) == false)
+                {
+                    translatedText = "";
+                }
+                potString += "#: " + i++ + "\n" +
+                    "msgctxt \"" + key +
+                    "\"\nmsgid \"" +
+                    originalText.Replace("\"", "\\\"").Replace("=", @"\=").Replace("\n", @"\n").Trim() +
+                    "\"\n" +
+                    "msgstr \"" +
+                    translatedText.Replace("\"", "\\\"").Replace("=", @"\=").Replace("\n", @"\n").Trim() +
+                    "\"\n\n";
+            }
+            System.IO.File.WriteAllText(TEMP_FOLDER_NAME + "\\" + category.Replace(" ", "_") + ".pot", potString);
+            System.IO.File.WriteAllText(TEMP_FOLDER_NAME + "\\" + category.Replace(" ", "_") + "_updated.po", potString);
+        }
+
+        //static JObject PatchText(JObject originalJSON, List<string> ListName)
+        //{
+
+        //}
+        static JObject PatchText(JObject originalJSON, List<string> listName)
+        {
+            foreach (string category in categorys)
+            {
+                Dictionary<string, string> tempTranslatedDictionary = LoadFromPo(TEMP_FOLDER_NAME + category + ".po");
+                originalJSON = PatchText(originalJSON, category, tempTranslatedDictionary);
+            }
+            return originalJSON;
+        }
+        static JObject PatchText(JObject originalJSON, string category, Dictionary<string,string> translatedDictionary)
+        {
+            foreach (JToken token in originalJSON[category].Children())
+            {
+                string translatedText = "";
+                if (translatedDictionary.TryGetValue(token["key"].Value<string>(), out translatedText) && translatedText != string.Empty)
+                {
+                    token["value"] = translatedText;
+                }
+            }
+            return originalJSON;
+        }
+
+        static void DownloadWebTranslatorNPatch()
+        {
+            List<string> ListName = DownloadWebFileOrCopyOfflineFile(RESOURCE_FOLDER_PATH + @"CSVURL.txt");
+            string originalText = System.IO.File.ReadAllText(TEMP_FOLDER_NAME + "LanguageData.json.txt");
+            JObject originalJSON = JObject.Parse(originalText);
+            JObject translatedJSON = PatchText(originalJSON, ListName);
+            System.IO.File.WriteAllText(TEMP_FOLDER_NAME + "LanguageData.json.txt", translatedJSON.ToString());
+        }
+
+        static void DownloadWebTranslationNUpdate()
+        {
+            string originalText = System.IO.File.ReadAllText(TEMP_FOLDER_NAME + "LanguageData.json.txt");
+            JObject originalJSON = JObject.Parse(originalText);
+            List<string> ListName;
+            try
+            {
+                ListName = DownloadWebFileOrCopyOfflineFile(RESOURCE_FOLDER_PATH + @"CSVURL.txt");
+            }
+            catch
+            {
+                WriteToPo(originalJSON);
+                return;
+            }
+            foreach(string category in categorys)
+            {
+                WriteToPo(originalJSON, category, LoadFromPo(TEMP_FOLDER_NAME + category + ".po"));
+            }
         }
 
         static void SwitchFile()
@@ -238,17 +494,29 @@ namespace BomberCrewKoreanPatcherCShop
             return downloadFileName;
         }
 
-        static void CreateFolderOrClean(string folderName)
+        static bool CreateFolderOrClean(string folderName, int count = 10)
         {
             DirectoryInfo di = new DirectoryInfo(folderName);
+            if (count == 0)
+            {
+                return false;
+            }
             if (di.Exists == false)
             {
                 di.Create();
+                return true;
             }
             else
             {
-                Directory.Delete(folderName, true);
-                di.Create();
+                try
+                {
+                    Directory.Delete(folderName, true);
+                }
+                catch
+                {
+                    Console.WriteLine(folderName + " 폴더 삭제 시도 " + count + "번 남음");
+                }
+                return CreateFolderOrClean(folderName, count - 1);
             }
         }
 
@@ -270,6 +538,12 @@ namespace BomberCrewKoreanPatcherCShop
                 "UILargedata",
                 "UISmalldata",
                 "UIMediumdata"
+            };
+
+            string[] fontGroupNames =
+            {
+                "MonoBehaviour FontGroupUIMedium",
+                "MonoBehaviour FontGroupUISmall"
             };
 
             CreateFolderOrClean(SHAREDASSETS0_PATCH_PATH);
@@ -328,9 +602,21 @@ namespace BomberCrewKoreanPatcherCShop
                     {
                         fsMono2.WriteByte(bytetk2FontDataPathID[j]);
                     }
+                    if(gameObjectName[i] != "UILargedata")
+                    {
+                        // FontGroup
+                        fsMono2.Seek(0x0002C940, SeekOrigin.Begin);
+                        string temp1 = "MonoBehaviour FontGroup" + gameObjectName[i].Replace("data", "");
+                        AssetInfo fontGroupInfo = Array.Find(AssetInfos, x => x.name == temp1);
+                        byte[] byteFontGroupPathID = BitConverter.GetBytes(fontGroupInfo.pathID);
+                        for (int j = 0; j < 4; j++)
+                        {
+                            fsMono2.WriteByte(byteFontGroupPathID[j]);
+                        }
+                    }
 
                     // Material
-                    fsMono2.Seek(0x0002C0B4, SeekOrigin.Begin);
+                    fsMono2.Seek(0x0002CE80, SeekOrigin.Begin);
                     string temp = gameObjectName[i].Replace("data", "") + "material";
                     AssetInfo materialInfo = Array.Find(AssetInfos, x => x.name == temp);
                     byte[] byteMaterialPathID = BitConverter.GetBytes(materialInfo.pathID);
@@ -338,6 +624,8 @@ namespace BomberCrewKoreanPatcherCShop
                     {
                         fsMono2.WriteByte(byteMaterialPathID[j]);
                     }
+
+
                 }
             }
             using (StreamWriter swPatchList = new StreamWriter(SHAREDASSETS0_PATCH_PATH + SHAREDASSETS0_PATCH_NAME + "_list.txt"))

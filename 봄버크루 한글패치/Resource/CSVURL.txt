@@ -1,0 +1,23 @@
+Bomber Upgrades (NON-UI)\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=Bomber_Upgrades_%28NON-UI%29
+
+BombLoads\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=BombLoads
+
+Crewman Gear (NON-UI)\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=Crewman_Gear_%28NON-UI%29
+
+How To Play\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=How_To_Play
+
+Missions\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=Missions
+
+MissionSpeech\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=MissionSpeech
+
+Ranks\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=Ranks
+
+Skills\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=Skills
+
+Speech\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=Speech
+
+Traits\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=Traits
+
+Tutorial\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=Tutorial
+
+UI\https://translate.zanata.org/rest/file/translation/BomberCrewKoreanL10n/3955/ko/po?docId=UI

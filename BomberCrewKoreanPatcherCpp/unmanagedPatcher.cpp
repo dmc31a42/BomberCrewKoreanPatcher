@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 #include "AssetsTools\defines.h"
 #include "AssetsTools\AssetsFileFormat.h"
@@ -76,7 +77,7 @@ unmanagedPatcher::unmanagedPatcher(string gameFolderPath, string currentDirector
 	sharedAssetsFileTable = new AssetsFileTable(sharedAssetsFile);
 
 	//findByClassID = new map<int, unsigned int>();
-	for (int i = 0; i < classDatabaseFile->classes.size(); i++)
+	for (unsigned int i = 0; i < classDatabaseFile->classes.size(); i++)
 	{
 		int classId = classDatabaseFile->classes[i].classId;
 		findByClassID.insert(map<int, unsigned int>::value_type(classId, i));
@@ -135,6 +136,7 @@ void unmanagedPatcher::FindInformation()
 {
 	vector<string> materialNames;
 	vector<string> gameObjectNames;
+	vector<string> fontGroupNames;
 	string languageDataName = "LanguageData.json";
 
 	materialNames.push_back("UILargematerial");
@@ -145,7 +147,10 @@ void unmanagedPatcher::FindInformation()
 	gameObjectNames.push_back("UISmalldata");
 	gameObjectNames.push_back("UIMediumdata");
 
-	int currentPathID = 1;
+	fontGroupNames.push_back("FontGroupUIMedium");
+	fontGroupNames.push_back("FontGroupUISmall");
+
+	unsigned int currentPathID = 1;
 	for (; currentPathID <= resAssetsFileTable->assetFileInfoCount; currentPathID++)
 	{
 		AssetFileInfoEx *tempAssetFileInfoEx = resAssetsFileTable->getAssetInfo(currentPathID);
@@ -365,6 +370,44 @@ void unmanagedPatcher::FindInformation()
 							}
 						}
 					}
+				}
+			}
+		}
+	}
+
+	for (; currentPathID <= sharedAssetsFileTable->assetFileInfoCount; currentPathID++)
+	{
+		if (fontGroupNames.size() == 0)
+		{
+			break;
+		}
+		AssetFileInfoEx *tempAssetFileInfoEx = sharedAssetsFileTable->getAssetInfo(currentPathID);
+		if (tempAssetFileInfoEx->curFileType < 4294901760)
+		{
+			continue;
+		}
+		AssetTypeTemplateField *tempAssetTypeTemplateField = new AssetTypeTemplateField;
+		tempAssetTypeTemplateField->FromClassDatabase(classDatabaseFile, &classDatabaseFile->classes[findByClassID[0x00000072]], (DWORD)0);
+		AssetTypeInstance tempAssetTypeInstance((DWORD)1, &tempAssetTypeTemplateField, AssetsReaderFromFile, (LPARAM)psharedAssetsFile, sharedAssetsFile->header.endianness ? true : false, tempAssetFileInfoEx->absolutePos);
+		AssetTypeValueField *pBase = tempAssetTypeInstance.GetBaseField();
+		if (pBase)
+		{
+			AssetTypeValueField *pm_Name = pBase->Get("m_Name");
+			if (pm_Name && pm_Name->IsDummy() == false)
+			{
+				string m_Name = pm_Name->GetValue()->AsString();
+#ifdef MY_DEBUG
+				logOfstream << "[PathID : " << currentPathID << "] : " << m_Name << ", ->curFileType : " << tempAssetFileInfoEx->curFileType << endl;
+#endif
+				vector<string>::iterator FindIter = std::find(fontGroupNames.begin(), fontGroupNames.end(), m_Name);
+				if (FindIter != fontGroupNames.end())
+				{
+					UnmanagedAssetInfo tempAssetInfo;
+					tempAssetInfo.pathID = currentPathID;
+					tempAssetInfo.name = "MonoBehaviour " + m_Name;
+					tempAssetInfo.offset = (int)tempAssetFileInfoEx->absolutePos;
+					tempAssetInfo.size = tempAssetFileInfoEx->curFileSize;
+					assetInfos.push_back(tempAssetInfo);
 				}
 			}
 		}
