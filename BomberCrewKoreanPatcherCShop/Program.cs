@@ -420,6 +420,10 @@ namespace BomberCrewKoreanPatcherCShop
             {
                 return GAME_NAME + @"_Data\";
             }
+            if (FolderExist(@"..\" + GAME_NAME + @"_Data\"))
+            {
+                return @"..\" + GAME_NAME + @"_Data\";
+            }
             if (FileExist(UNITY_RESOURCES_ASSETS_NAME))
             {
                 return @".\";
